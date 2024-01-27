@@ -8,7 +8,8 @@ import Cart from "./common/Cart/Cart"
 import Footer from "./common/footer/Footer"
 import Sdata from "./components/shops/Sdata"
 import Contact from "./common/header/Contact"
-import Login from "./common/header/Login"
+// import Login from "./common/header/Login"
+import Signup from "./components/Signup/Signup"
 
 function App() {
   /*
@@ -83,8 +84,11 @@ function App() {
           <Route path='/contact' exact>
             <Contact/>         
           </Route>
-          <Route path='/login' exact>
-            <Login/>         
+          {/* <Route path='/login' exact>
+            <Login/>
+          </Route> */}
+          <Route path='/Signup' exact>
+            <Signup/>         
           </Route>
         </Switch>
         <Footer />
