@@ -69,4 +69,4 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
   )
 }
 
-export default Cart
+export default Cart;

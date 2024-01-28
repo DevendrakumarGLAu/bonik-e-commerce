@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import "./App.css"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-dom"
 import Header from "./common/header/Header"
 import Pages from "./pages/Pages"
 import Data from "./components/Data"
@@ -10,6 +10,8 @@ import Sdata from "./components/shops/Sdata"
 import Contact from "./common/header/Contact"
 // import Login from "./common/header/Login"
 import Signup from "./components/Signup/Signup"
+import Login from "./components/login/Login"
+import Logout from "./components/login/Logout/Logout"
 
 function App() {
   /*
@@ -27,6 +29,7 @@ function App() {
   //Step 1 :
   const { productItems } = Data
   const { shopItems } = Sdata
+  const [loggedIn, setLoggedIn] = useState(false);
 
   //Step 2 :
   const [CartItem, setCartItem] = useState([])
@@ -49,7 +52,11 @@ function App() {
       setCartItem([...CartItem, { ...product, qty: 1 }])
     }
   }
-
+  const handleLogout = () => {
+    setLoggedIn(false);
+    // You can also clear any user-related data, such as the shopping cart, in this function
+    // setCartItem([]);
+  };
   // Stpe: 6
   const decreaseQty = (product) => {
     // if hamro product alredy cart xa bhane  find garna help garxa
@@ -72,29 +79,41 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Header CartItem={CartItem} />
+    <Router>
+        <Header CartItem={CartItem} loggedIn={loggedIn} handleLogout={handleLogout} />
         <Switch>
           <Route path='/' exact>
-            <Pages productItems={productItems} addToCart={addToCart} shopItems={shopItems} />
+            {loggedIn ? (
+              <Pages productItems={productItems} addToCart={addToCart} shopItems={shopItems} />
+            ) : (
+              <Redirect to='/login' />
+            )}
           </Route>
           <Route path='/cart' exact>
-            <Cart CartItem={CartItem} addToCart={addToCart} decreaseQty={decreaseQty} />
+            {loggedIn ? (
+              <Cart CartItem={CartItem} addToCart={addToCart} decreaseQty={decreaseQty} />
+            ) : (
+              <Redirect to='/login' />
+            )}
           </Route>
           <Route path='/contact' exact>
-            <Contact/>         
+            <Contact />
           </Route>
-          {/* <Route path='/login' exact>
-            <Login/>
-          </Route> */}
-          <Route path='/Signup' exact>
-            <Signup/>         
+          <Route path='/signup' exact>
+            <Signup />
+          </Route>
+          <Route path='/login' exact>
+            <Login setLoggedIn={setLoggedIn} />
+          </Route>
+          <Route path='/logout' exact>
+            {/* Logout route, handleLogout function will be called here */}
+            <Logout handleLogout={handleLogout} />
           </Route>
         </Switch>
         <Footer />
       </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

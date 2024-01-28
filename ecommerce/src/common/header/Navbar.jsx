@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 // import { Auth0Provider } from "@auth0/auth0-react";
 
-const Navbar = () => {
+const Navbar  = ({ loggedIn, handleLogout }) => {
   // Toogle Menu
   const [MobileMenu, setMobileMenu] = useState(false)
   // const { loginWithRedirect } = useAuth0();
@@ -41,7 +41,14 @@ const Navbar = () => {
                <Link  to="/contact">Contact</Link>
               </li>
               <li>
-              <Link  to="/login">login</Link>
+                {/* Conditionally render "Login" or "Logout" link */}
+                {loggedIn ? (
+                  <Link to="/logout" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                ) : (
+                  <Link to="/login">Login</Link>
+                )}
               </li>
               {/* <li>
               <Link  to="/login"><button onClick={() => loginWithRedirect()}>Log In</button></Link>

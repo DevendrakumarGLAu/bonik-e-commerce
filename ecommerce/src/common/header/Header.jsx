@@ -15,4 +15,4 @@ const Header = ({ CartItem }) => {
   )
 }
 
-export default Header
+export default Header;
